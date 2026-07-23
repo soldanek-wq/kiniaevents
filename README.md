@@ -37,7 +37,10 @@ kinga-nagiewicz-events-atelier/
 │   ├── layout.tsx        # fonty, metadata SEO po polsku, JSON-LD
 │   ├── page.tsx           # kolejność sekcji: Hero → About → Services → Portfolio →
 │   │                       # Process → Trust → Contact
-│   └── globals.css        # Tailwind + prymitywy przycisków/pól/animacji
+│   ├── globals.css        # Tailwind + prymitywy przycisków/pól/animacji
+│   └── api/
+│       └── contact/
+│           └── route.ts   # bezpieczny endpoint wysyłki formularza (Resend)
 ├── components/
 │   ├── Navbar.tsx           # nawigacja ze scroll-blur, powiększony monogram
 │   ├── Hero.tsx              # pełnoekranowe zdjęcie, animacja wejścia
@@ -138,26 +141,42 @@ Zależności są przypięte do dokładnych, wzajemnie kompatybilnych wersji (Nex
 18.3.1) z blokiem `overrides` i zabezpieczeniem `.npmrc` (`legacy-peer-deps=true`), więc
 `npm install` na Vercel przechodzi bez błędów `ERESOLVE`.
 
-## Formularz kontaktowy
+## Formularz kontaktowy i wysyłka e-maili (Resend)
 
-`components/Contact.tsx` to kontrolowany formularz z demonstracyjną wysyłką tylko po stronie
-frontendu. Przed uruchomieniem produkcyjnym podłącz `handleSubmit` do:
+Formularz w `components/Contact.tsx` wysyła dane do prawdziwego, zabezpieczonego API Route:
+`app/api/contact/route.ts`. Ten endpoint:
 
-- Route Handlera w Next.js (`app/api/inquiry/route.ts`) wysyłającego e-mail przez np. Resend, lub
-- zewnętrznego serwisu formularzy (Formspree, Getform) przez `fetch`.
+- waliduje po stronie serwera imię, e-mail (format), telefon, rodzaj wydarzenia i wiadomość
+  (odrzuca puste wartości, wymaga min. 10 znaków w wiadomości),
+- sanityzuje każde pole wejściowe (usuwa znaki `<`/`>` i znaki sterujące, ogranicza długość),
+- ma prostą ochronę antyspamową: honeypot (ukryte pole `company`, niewidoczne dla użytkownika
+  i pomijane w tabulacji — boty je wypełniają, ludzie nigdy go nie widzą) oraz odrzucanie
+  wiadomości nafaszerowanych linkami,
+- wysyła e-mail przez oficjalny SDK Resend na `kontakt@eventsatelier.pl`, z nadawcą
+  `Events Atelier <kontakt@eventsatelier.pl>` (zweryfikowana domena),
+- ustawia `replyTo` na adres e-mail nadawcy z formularza, więc "Odpowiedz" w skrzynce trafia
+  bezpośrednio do klienta,
+- nigdy nie zwraca szczegółów błędu do przeglądarki — pełny błąd trafia tylko do logów serwera
+  (`console.error`), użytkownik widzi ogólny, uprzejmy komunikat.
+
+Klucz `RESEND_API_KEY` jest odczytywany wyłącznie w `app/api/contact/route.ts` przez
+`process.env.RESEND_API_KEY` — Next.js udostępnia przeglądarce tylko zmienne z prefiksem
+`NEXT_PUBLIC_`, więc klucz nigdy nie trafia do kodu wysyłanego do klienta. Na Vercel zmienna jest
+już ustawiona; do developmentu lokalnego skopiuj `.env.example` jako `.env.local` i wklej tam
+swój klucz z panelu Resend.
+
+Formularz w interfejsie: blokuje przycisk i pokazuje "Wysyłanie..." podczas wysyłki (chroni przed
+wielokrotnym wysłaniem), po sukcesie czyści pola i pokazuje komunikat po polsku, przy błędzie
+pokazuje osobny komunikat i pozwala spróbować ponownie.
 
 ### Dane kontaktowe — do podmiany
 
-Telefon, e-mail i adres w `components/Contact.tsx`, `components/Footer.tsx` oraz
-`components/StructuredData.tsx` to **bezpieczne placeholdery** (`+48 22 000 00 00`,
-`kontakt@kinganagiewicz.pl`, adres w Warszawie, link do Instagrama). Żadne z tych danych nie
-zostało zmyślone jako fakt — to miejsca do uzupełnienia prawdziwymi danymi studia. Znajdziesz je
-w trzech plikach:
-
-1. `components/Contact.tsx` — telefon, e-mail, Instagram, osadzona mapa
-2. `components/Footer.tsx` — link do Instagrama
-3. `components/StructuredData.tsx` — telefon, e-mail, adres, Instagram (dane strukturalne dla
-   wyszukiwarek)
+Telefon i link do Instagrama w `components/Contact.tsx` oraz `components/Footer.tsx` to nadal
+**bezpieczne placeholdery** (`+48 22 000 00 00`, link do Instagrama) — podmień je na prawdziwe
+dane studia. Adres e-mail (`kontakt@eventsatelier.pl`) jest już właściwy — to zweryfikowana w
+Resend domena, na którą realnie trafiają zgłoszenia z formularza. Adres i telefon w
+`components/StructuredData.tsx` (dane strukturalne dla wyszukiwarek) to wciąż placeholdery do
+uzupełnienia; pole `email` zostało już zaktualizowane na `kontakt@eventsatelier.pl`.
 
 ## SEO
 
@@ -198,3 +217,8 @@ agencja kreatywna, w całości po polsku”:
 - Spowolniony, bardziej „luksusowy” timing wszystkich animacji Framer Motion + realna obsługa
   `prefers-reduced-motion` w `<Reveal>`.
 - Wszystkie dane strukturalne i metadata SEO przetłumaczone, bez żadnych zmyślonych faktów.
+- **Formularz kontaktowy podłączony do Resend**: nowy endpoint `app/api/contact/route.ts`
+  (walidacja, sanityzacja, honeypot), `components/Contact.tsx` wysyła realne zgłoszenia zamiast
+  demonstracyjnej symulacji — bez żadnej zmiany w wyglądzie, layoucie czy animacjach strony.
+  Adres e-mail widoczny w sekcji Kontakt zaktualizowany na zweryfikowaną domenę
+  `kontakt@eventsatelier.pl`.
