@@ -3,7 +3,7 @@ import type { Service, PortfolioItem, ProcessStep, TrustPoint, NavItem } from ".
 
 export const navItems: NavItem[] = [
   { href: "#top", label: "Start" },
-  { href: "#about", label: "O Kindze" },
+  { href: "#about", label: "O Firmie" },
   { href: "#services", label: "Oferta" },
   { href: "#portfolio", label: "Realizacje" },
   { href: "#process", label: "Współpraca" },
