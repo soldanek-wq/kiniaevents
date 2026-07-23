@@ -62,7 +62,7 @@ export default function Hero() {
           className="mt-9 max-w-xl text-base font-light leading-relaxed text-ivory/75 md:text-lg"
         >
           Organizujemy eventy firmowe, bankiety, gale, konferencje, targi oraz wyjątkowe
-          przyjęcia prywatne. Kompleksowo, profesjonalnie i z dbałością o każdy detal — na
+          przyjęcia prywatne. Kompleksowo, profesjonalnie i z dbałością o każdy detal na
           terenie całej Polski.
         </motion.p>
 
