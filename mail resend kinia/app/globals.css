@@ -1,0 +1,198 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #f7f5f2;
+  color: #0f0f0f;
+}
+
+::selection {
+  background: #c6a56b;
+  color: #ffffff;
+}
+
+::-webkit-scrollbar {
+  width: 9px;
+}
+::-webkit-scrollbar-track {
+  background: #f7f5f2;
+}
+::-webkit-scrollbar-thumb {
+  background: #c6a56b;
+  border-radius: 9px;
+  border: 2px solid #f7f5f2;
+}
+
+.font-display {
+  font-family: var(--font-display), Georgia, serif;
+}
+
+/* ---------- Navigation underline ---------- */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 0;
+  height: 1px;
+  background: #c6a56b;
+  transition: width 0.45s cubic-bezier(0.16, 0.8, 0.2, 1);
+}
+.nav-link:hover::after,
+.nav-link[aria-current="true"]::after {
+  width: 100%;
+}
+
+/* ---------- Buttons ---------- */
+/* Restrained by design: a color/border transition only — no shine
+   sweep or scale gimmick, in keeping with the brief's request for
+   quiet, non-templated motion. */
+.btn-solid {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0f0f0f;
+  color: #f7f5f2;
+  border: 1px solid #0f0f0f;
+  transition: background-color 0.45s ease, color 0.45s ease, border-color 0.45s ease;
+}
+.btn-solid:hover {
+  background-color: #c6a56b;
+  border-color: #c6a56b;
+  color: #0f0f0f;
+}
+
+/* Inverse of .btn-solid — used on dark photography where an ivory
+   button reads clearly against the image. */
+.btn-solid-ivory {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f7f5f2;
+  color: #0f0f0f;
+  border: 1px solid #f7f5f2;
+  transition: background-color 0.45s ease, border-color 0.45s ease;
+}
+.btn-solid-ivory:hover {
+  background-color: #c6a56b;
+  border-color: #c6a56b;
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: 1px solid rgba(247, 245, 242, 0.55);
+  color: #f7f5f2;
+  transition: border-color 0.45s ease, background-color 0.45s ease;
+}
+.btn-outline:hover {
+  border-color: #f7f5f2;
+  background-color: rgba(247, 245, 242, 0.08);
+}
+
+.btn-outline-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: 1px solid rgba(15, 15, 15, 0.25);
+  color: #0f0f0f;
+  transition: border-color 0.45s ease, background-color 0.45s ease;
+}
+.btn-outline-dark:hover {
+  border-color: #0f0f0f;
+  background-color: rgba(15, 15, 15, 0.04);
+}
+
+/* ---------- Form fields ---------- */
+.field {
+  background: transparent;
+  border-bottom: 1px solid rgba(15, 15, 15, 0.15);
+  transition: border-color 0.4s ease;
+}
+.field:focus {
+  outline: none;
+  border-color: #a3814e;
+}
+.field::placeholder {
+  color: rgba(15, 15, 15, 0.35);
+}
+
+/* Used inside dark sections (Contact) — same behavior, inverted palette. */
+.field-dark {
+  background: transparent;
+  border-bottom: 1px solid rgba(247, 245, 242, 0.18);
+  color: #f7f5f2;
+  transition: border-color 0.4s ease;
+}
+.field-dark:focus {
+  outline: none;
+  border-color: #c6a56b;
+}
+.field-dark::placeholder {
+  color: rgba(247, 245, 242, 0.32);
+}
+
+/* ---------- Scroll cue ---------- */
+.scroll-cue {
+  width: 1px;
+  height: 56px;
+  background: linear-gradient(
+    180deg,
+    rgba(247, 245, 242, 0.05),
+    rgba(247, 245, 242, 0.65),
+    rgba(247, 245, 242, 0.05)
+  );
+  position: relative;
+  overflow: hidden;
+}
+.scroll-cue::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -40%;
+  width: 100%;
+  height: 40%;
+  background: linear-gradient(180deg, transparent, #c6a56b, transparent);
+  animation: scrollDown 2.4s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+@keyframes scrollDown {
+  0% {
+    top: -40%;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+/* ---------- Focus visibility ---------- */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid #a3814e;
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
