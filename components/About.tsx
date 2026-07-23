@@ -40,7 +40,7 @@ export default function About() {
         <div className="order-1 lg:order-2 lg:col-span-6">
           <Reveal>
             <h2 className="font-display max-w-md text-3xl leading-tight text-ink sm:text-4xl md:text-5xl">
-              Poznaj założycielkę Events Atelier
+              O Firmie
             </h2>
           </Reveal>
 
