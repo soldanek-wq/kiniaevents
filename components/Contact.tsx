@@ -62,7 +62,7 @@ export default function Contact() {
             <Reveal delay={0.22}>
               <p className="mt-6 max-w-sm text-sm leading-relaxed text-ivory/60">
                 Bez względu na to, czy planujesz prestiżowy event firmowy, galę, targi czy
-                wyjątkowe przyjęcie — chętnie poznamy Twój pomysł i przygotujemy rozwiązanie
+                wyjątkowe przyjęcie chętnie poznamy Twój pomysł i przygotujemy rozwiązanie
                 dopasowane do Twoich potrzeb.
               </p>
             </Reveal>
@@ -75,7 +75,7 @@ export default function Contact() {
                 className="flex items-center gap-4 text-sm text-ivory/80 transition-colors hover:text-gold-light"
               >
                 <Phone className="h-4 w-4 text-gold" strokeWidth={1.25} />
-                +48 22 000 00 00
+                +48 889 085 820
               </a>
               <a
                 href="mailto:kontakt@kinganagiewicz.pl"
@@ -221,7 +221,7 @@ export default function Contact() {
                   animate={{ opacity: 1 }}
                   className="text-sm text-gold-light"
                 >
-                  Dziękujemy — odezwiemy się w ciągu jednego dnia roboczego.
+                  Dziękujemy, odezwiemy się w ciągu jednego dnia roboczego.
                 </motion.p>
               )}
             </form>
