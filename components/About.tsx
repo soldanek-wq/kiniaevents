@@ -51,7 +51,7 @@ export default function About() {
                 perfekcyjną organizacją.
               </p>
               <p>
-                Kinga Nagiewicz jest założycielką Events Atelier — marki stworzonej z pasji do
+                Kinga Nagiewicz jest założycielką Events Atelier, marki stworzonej z pasji do
                 organizacji wydarzeń, które pozostają w pamięci uczestników na długo.
               </p>
               <p>
