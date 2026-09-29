@@ -39,35 +39,39 @@ export default function About() {
 
         <div className="order-1 lg:order-2 lg:col-span-6">
           <Reveal>
-            <h2 className="font-display max-w-md text-3xl leading-tight text-ink sm:text-4xl md:text-5xl">
-              Poznaj założycielkę Events Atelier
-            </h2>
-          </Reveal>
+  <h2 className="font-display max-w-md text-3xl leading-tight text-ink sm:text-4xl md:text-5xl">
+    Poznajmy się
+  </h2>
+</Reveal>
 
-          <Reveal delay={0.1} variants={fadeUp}>
-            <div className="mt-9 max-w-xl space-y-5 text-base leading-relaxed text-ink/70 md:text-[1.05rem]">
-              <p>
-                Za każdą udaną realizacją stoi człowiek, który potrafi połączyć kreatywność z
-                perfekcyjną organizacją.
-              </p>
-              <p>
-                Kinga Nagiewicz jest założycielką Events Atelier, marki stworzonej z pasji do
-                organizacji wydarzeń, które pozostają w pamięci uczestników na długo.
-              </p>
-              <p>
-                Każdy projekt traktuje indywidualnie, wsłuchując się w potrzeby klienta i dbając
-                o to, aby każdy element tworzył spójną, elegancką całość.
-              </p>
-              <p>
-                Specjalizuje się w organizacji eventów firmowych, bankietów, gali, targów oraz
-                przyjęć prywatnych na terenie całej Polski.
-              </p>
-              <p>
-                Jej priorytetem jest nie tylko perfekcyjna organizacja, ale również stworzenie
-                atmosfery, dzięki której klienci mogą skupić się na tym, co naprawdę ważne.
-              </p>
-            </div>
-          </Reveal>
+<Reveal delay={0.1} variants={fadeUp}>
+  <div className="mt-9 max-w-xl space-y-5 text-base leading-relaxed text-ink/70 md:text-[1.05rem]">
+    <p className="font-semibold text-ink">
+      Doświadczenie, indywidualne podejście i pełna odpowiedzialność za realizację.
+    </p>
+
+    <p className="font-semibold text-ink">
+      Kinga Nagiewicz - założycielka Events Atelier - od 8 lat zawodowo zajmuje się organizacją i produkcją wydarzeń.
+    </p>
+
+    <p>
+      Przez lata realizowała wydarzenia o różnym charakterze i skali - od eventów firmowych i branżowych, przez konferencje, gale, bankiety i targi, po uroczystości prywatne, w tym urodziny i jubileusze.
+    </p>
+
+    <p>
+      Events Atelier łączy doświadczenie z indywidualnym podejściem do każdego projektu. Koncepcja, zakres działań i sposób realizacji są każdorazowo dopasowywane do charakteru wydarzenia, potrzeb klienta i jego celu.
+    </p>
+
+    <p>
+      Od pierwszej rozmowy i stworzenia koncepcji, przez dobór oraz koordynację partnerów, aż po realizację wydarzenia - Events Atelier odpowiada za każdy etap projektu i jego sprawny przebieg.
+    </p>
+
+    <p className="font-semibold text-ink">
+      Od pierwszego pomysłu do ostatniego gościa - bierzemy odpowiedzialność za całość.
+    </p>
+  </div>
+</Reveal>
+          
 
           <Reveal delay={0.2}>
             <div className="mt-10 border-l border-gold/40 pl-6">

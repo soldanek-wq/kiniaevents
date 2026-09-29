@@ -14,16 +14,25 @@ export default function Portfolio() {
   const [selected, setSelected] = useState<PortfolioItem | null>(null);
 
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setSelected(null);
-    };
-    document.addEventListener("keydown", onKey);
-    document.body.style.overflow = selected ? "hidden" : "";
-    return () => document.removeEventListener("keydown", onKey);
-  }, [selected]);
+  const onKey = (e: KeyboardEvent) => {
+    if (e.key === "Escape") {
+      setSelected(null);
+    }
+  };
+
+  document.addEventListener("keydown", onKey);
+  document.body.style.overflow = selected ? "hidden" : "";
+
+  return () => {
+    document.removeEventListener("keydown", onKey);
+  };
+}, [selected]);
+
 
   return (
     <section id="portfolio" className="bg-ivory px-6 py-32 md:px-10 md:py-40">
+   
+    
       <div className="mx-auto max-w-8xl">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
@@ -33,14 +42,17 @@ export default function Portfolio() {
               </p>
             </Reveal>
             <Reveal delay={0.08}>
-              <h2 className="font-display mt-5 max-w-lg text-3xl leading-tight sm:text-4xl md:text-5xl">
-                Wybrane realizacje.
-              </h2>
+              <h2
+  className="font-display mt-5 max-w-lg text-3xl sm:text-4xl md:text-5xl"
+  style={{ lineHeight: "1.15" }}
+>
+  Poznaj realizacje Events Atelier
+</h2>
             </Reveal>
           </div>
           <Reveal delay={0.16}>
             <p className="max-w-sm text-ink/60">
-              Wybór wydarzeń, które zaprojektowaliśmy w ostatnich sezonach na terenie całej Polski.
+             Wydarzenia, które zaprojektowaliśmy w ostatnich sezonach na terenie całej Polski.
             </p>
           </Reveal>
         </div>

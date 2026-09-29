@@ -19,7 +19,10 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.kinganagiewicz.pl"),
+   metadataBase: new URL("https://www.kinganagiewicz.pl"),
+  icons: {
+    icon: "/favicon.png",
+  },
   title: {
     default: "Kinga Nagiewicz Events Atelier | Eventy firmowe i wyjątkowe wydarzenia w całej Polsce",
     template: "%s — Kinga Nagiewicz Events Atelier",

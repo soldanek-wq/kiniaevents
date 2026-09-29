@@ -42,11 +42,11 @@ export const services: Service[] = [
 // studio's actual specialization — nationwide, not destination events.
 export const portfolioItems: PortfolioItem[] = [
   {
-    id: "gala-korporacyjna",
-    title: "Gala z okazji dwudziestolecia firmy",
-    category: "Gala korporacyjna",
-    location: "Warszawa",
-    image: "/images/portfolio-1.jpg",
+    id: "Urodziny",
+    title: "50-te urodziny w stylu Ojca Chrzestnego",
+    category: "50-te urodziny",
+    location: "Sierpc",
+    image: "/images/REALIZACJA-SIERPC.JPG.jpeg",
     span: "lg:col-span-7",
     aspect: "aspect-[4/5]",
   },

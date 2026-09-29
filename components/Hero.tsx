@@ -41,7 +41,7 @@ export default function Hero() {
           variants={fadeUp}
           className="text-[0.68rem] font-medium uppercase tracking-[0.34em] text-gold-light"
         >
-          Premium organizacja wydarzeń
+          EVENT DESIGN & PRODUCTION
         </motion.p>
 
         <motion.h1
@@ -51,7 +51,7 @@ export default function Hero() {
           variants={fadeUp}
           className="font-display mt-6 max-w-3xl text-4xl italic leading-[1.14] text-ivory sm:text-5xl md:text-6xl lg:text-[4.75rem]"
         >
-          Tworzymy wydarzenia, które robią wrażenie.
+          Tworzymy wyjątkowe doświadczenia dla marek, firm i ich gości.
         </motion.h1>
 
         <motion.p
@@ -59,11 +59,20 @@ export default function Hero() {
           animate="show"
           custom={0.32}
           variants={fadeUp}
-          className="mt-9 max-w-xl text-base font-light leading-relaxed text-ivory/75 md:text-lg"
+          className="mt-9 max-w-xl text-base font-normal leading-relaxed text-ivory/80 md:text-lg"
         >
-          Organizujemy eventy firmowe, bankiety, gale, konferencje, targi oraz wyjątkowe
-          przyjęcia prywatne. Kompleksowo, profesjonalnie i z dbałością o każdy detal na
-          terenie całej Polski.
+        <span className="block">
+  Od kameralnych przyjęć po duże wydarzenia - projektujemy i realizujemy wydarzenia dopasowane do ich charakteru, celu i odbiorców. Łączymy kreatywność, estetykę i perfekcyjną organizację, dbając o każdy element - od pierwszej koncepcji po finalną realizację.
+</span>
+
+<span className="mt-5 block">
+  Organizujemy eventy firmowe, gale, konferencje, bankiety i targi, a także urodziny, jubileusze i wyjątkowe przyjęcia prywatne.
+</span>
+
+<strong className="mt-5 block font-semibold text-ivory">
+  Ty masz powód do świętowania. My tworzymy oprawę.
+</strong>
+
         </motion.p>
 
         <motion.div

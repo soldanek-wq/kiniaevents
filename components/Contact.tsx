@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import { motion } from "framer-motion";
 import { Instagram, Mail, Phone } from "lucide-react";
 import Reveal from "./Reveal";
@@ -14,16 +14,25 @@ const eventTypes = [
   "Inne",
 ];
 
+const initialForm = {
+  name: "",
+  email: "",
+  phone: "",
+  eventDate: "",
+  eventType: eventTypes[0],
+  message: "",
+};
+
+type SubmitStatus = "idle" | "sending" | "success" | "error";
+
 export default function Contact() {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    eventDate: "",
-    eventType: eventTypes[0],
-    message: "",
-  });
-  const [submitted, setSubmitted] = useState(false);
+  const [form, setForm] = useState(initialForm);
+  const [status, setStatus] = useState<SubmitStatus>("idle");
+  // Honeypot field — kept out of `form` state and off the visible layout
+  // entirely. Real visitors never see or fill it; bots that auto-fill
+  // every input on the page will.
+  const honeypotRef = useRef<HTMLInputElement>(null);
+  const resetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -32,14 +41,38 @@ export default function Contact() {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Front-end only: wire this up to an API route (app/api/inquiry/route.ts)
-    // or a form backend (Resend, Formspree) before taking this live.
-    setSubmitted(true);
-    setForm({ name: "", email: "", phone: "", eventDate: "", eventType: eventTypes[0], message: "" });
-    setTimeout(() => setSubmitted(false), 5000);
+
+    // Guards against double-submits (e.g. double-click or a stuck request).
+    if (status === "sending") return;
+
+    if (resetTimer.current) clearTimeout(resetTimer.current);
+    setStatus("sending");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...form,
+          company: honeypotRef.current?.value ?? "",
+        }),
+      });
+
+      if (!response.ok) throw new Error("send_failed");
+
+      setStatus("success");
+      setForm(initialForm);
+      if (honeypotRef.current) honeypotRef.current.value = "";
+    } catch {
+      setStatus("error");
+    } finally {
+      resetTimer.current = setTimeout(() => setStatus("idle"), 6000);
+    }
   };
+
+  const isSending = status === "sending";
 
   return (
     <section id="contact" className="bg-ink px-6 py-32 text-ivory md:px-10 md:py-40">
@@ -62,27 +95,28 @@ export default function Contact() {
             <Reveal delay={0.22}>
               <p className="mt-6 max-w-sm text-sm leading-relaxed text-ivory/60">
                 Bez względu na to, czy planujesz prestiżowy event firmowy, galę, targi czy
-                wyjątkowe przyjęcie chętnie poznamy Twój pomysł i przygotujemy rozwiązanie
+                wyjątkowe przyjęcie — chętnie poznamy Twój pomysł i przygotujemy rozwiązanie
                 dopasowane do Twoich potrzeb.
               </p>
             </Reveal>
 
-            {/* Placeholder contact details — replace with the studio's
-                real phone, email, and Instagram handle before launch. */}
+            {/* Placeholder phone and Instagram handle — replace with the
+                studio's real numbers before launch. The email address
+                matches the verified sending domain used by the API route. */}
             <Reveal delay={0.3} className="mt-12 space-y-6">
               <a
                 href="tel:+48220000000"
                 className="flex items-center gap-4 text-sm text-ivory/80 transition-colors hover:text-gold-light"
               >
                 <Phone className="h-4 w-4 text-gold" strokeWidth={1.25} />
-                +48 889 085 820
+                +48 22 000 00 00
               </a>
               <a
-                href="mailto:kontakt@kinganagiewicz.pl"
+                href="mailto:kontakt@eventsatelier.pl"
                 className="flex items-center gap-4 text-sm text-ivory/80 transition-colors hover:text-gold-light"
               >
                 <Mail className="h-4 w-4 text-gold" strokeWidth={1.25} />
-                kontakt@kinganagiewicz.pl
+                kontakt@eventsatelier.pl
               </a>
               <a
                 href="https://www.instagram.com/kinganagiewicz.ateliers"
@@ -109,6 +143,18 @@ export default function Contact() {
 
           <Reveal delay={0.12} className="lg:col-span-7">
             <form onSubmit={handleSubmit} className="space-y-8" noValidate>
+              {/* Honeypot — visually hidden, unreachable by keyboard tab
+                  order, never part of the visible design. */}
+              <input
+                ref={honeypotRef}
+                type="text"
+                name="company"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="hidden"
+              />
+
               <div className="grid gap-8 sm:grid-cols-2">
                 <div>
                   <label htmlFor="name" className="text-[0.7rem] uppercase tracking-[0.18em] text-ivory/50">
@@ -153,6 +199,7 @@ export default function Contact() {
                     id="phone"
                     name="phone"
                     type="tel"
+                    required
                     value={form.phone}
                     onChange={handleChange}
                     className="field-dark mt-2 w-full py-3 text-base"
@@ -180,6 +227,7 @@ export default function Contact() {
                   <select
                     id="eventType"
                     name="eventType"
+                    required
                     value={form.eventType}
                     onChange={handleChange}
                     className="field-dark mt-2 w-full bg-transparent py-3 text-base"
@@ -201,6 +249,8 @@ export default function Contact() {
                   id="message"
                   name="message"
                   rows={4}
+                  required
+                  minLength={10}
                   value={form.message}
                   onChange={handleChange}
                   className="field-dark mt-2 w-full resize-none py-3 text-base"
@@ -210,18 +260,35 @@ export default function Contact() {
 
               <button
                 type="submit"
-                className="btn-solid-ivory px-9 py-4 text-[0.72rem] font-semibold uppercase tracking-[0.16em]"
+                disabled={isSending}
+                className="btn-solid-ivory px-9 py-4 text-[0.72rem] font-semibold uppercase tracking-[0.16em] disabled:cursor-not-allowed disabled:opacity-60"
               >
-                Umów konsultację
+                {isSending ? "Wysyłanie..." : "Umów konsultację"}
               </button>
 
-              {submitted && (
+              {status === "success" && (
                 <motion.p
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="text-sm text-gold-light"
+                  className="text-sm leading-relaxed text-gold-light"
                 >
-                  Dziękujemy, odezwiemy się w ciągu jednego dnia roboczego.
+                  Dziękujemy za wiadomość.
+                  <br />
+                  Otrzymaliśmy Twoje zgłoszenie.
+                  <br />
+                  Skontaktujemy się z Państwem w ciągu 24 godzin.
+                </motion.p>
+              )}
+
+              {status === "error" && (
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="text-sm leading-relaxed text-red-400"
+                >
+                  Wystąpił problem podczas wysyłania wiadomości.
+                  <br />
+                  Spróbuj ponownie za chwilę.
                 </motion.p>
               )}
             </form>
