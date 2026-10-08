@@ -19,7 +19,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-   metadataBase: new URL("https://www.kinganagiewicz.pl"),
+   metadataBase: new URL("https://eventsatelier.pl"),
   icons: {
     icon: "/favicon.png",
   },
@@ -40,14 +40,13 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Kinga Nagiewicz" }],
   alternates: {
-    // Update once the production domain is finalized.
-    canonical: "https://www.kinganagiewicz.pl",
+    canonical: "https://eventsatelier.pl"
   },
   openGraph: {
     title: "Kinga Nagiewicz Events Atelier",
     description:
       "Tworzymy wydarzenia, które robią wrażenie. Eventy firmowe, gale, bankiety, targi i przyjęcia prywatne — na terenie całej Polski.",
-    url: "https://www.kinganagiewicz.pl",
+    url: "https://eventsatelier.pl",
     siteName: "Kinga Nagiewicz Events Atelier",
     images: [{ url: "/images/hero.jpg", width: 2600, height: 1500, alt: "Kinga Nagiewicz Events Atelier" }],
     locale: "pl_PL",
